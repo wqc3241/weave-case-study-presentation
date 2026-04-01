@@ -323,9 +323,10 @@
   }
 
   .s1-metrics {
-    display: flex;
-    gap: 32px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 32px;
+    max-width: 600px;
   }
 
   .s1-metric-group-label {
@@ -1158,8 +1159,8 @@
         <div class="s1-ba-col s1-ba-before">
           <div class="s1-ba-label">Before</div>
           <ul class="s1-ba-list">
-            <li>Every step required a sales advisor</li>
-            <li>Manual credit app sent via email</li>
+            <li>Every step needs sales assistant</li>
+            <li>Manual credit app submission and review</li>
             <li class="s1-ba-pain">~1 week wait for credit decision</li>
             <li>30% deposit-to-delivery conversion</li>
           </ul>
@@ -1169,7 +1170,7 @@
           <div class="s1-ba-label">After</div>
           <ul class="s1-ba-list">
             <li>Mobile-first self-serve journey</li>
-            <li>Instant credit via DealerTrack API</li>
+            <li>Instant credit decision via API</li>
             <li class="s1-ba-win">&lt;5 min credit decision</li>
             <li>60% deposit-to-delivery conversion</li>
           </ul>
