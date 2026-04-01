@@ -394,6 +394,7 @@
     grid-template-columns: 260px 1fr;
     gap: 32px;
     flex: 1;
+    align-items: stretch;
   }
 
   /* Funnel */
@@ -401,16 +402,18 @@
     display: flex;
     flex-direction: column;
     gap: 0;
+    justify-content: space-between;
+    height: 100%;
   }
 
   .funnel-step {
     position: relative;
     padding: 7px 14px;
     font-size: 11.5px;
-    font-weight: 500;
-    color: var(--navy);
-    background: var(--white);
-    border-left: 3px solid var(--gray-200);
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--card-bg);
+    border-left: 3px solid var(--accent);
     transition: all 0.2s;
     display: flex;
     align-items: center;
@@ -442,17 +445,19 @@
   .funnel-arrow {
     display: flex;
     justify-content: center;
-    padding: 1px 0;
-    color: var(--gray-200);
+    padding: 0;
+    line-height: 1;
   }
 
-  .funnel-arrow svg { width: 14px; height: 14px; stroke: var(--gray-400); fill: none; stroke-width: 2; }
+  .funnel-arrow svg { width: 10px; height: 10px; stroke: var(--card-border); fill: none; stroke-width: 1.5; opacity: 0.5; }
 
   /* Discovery methods */
   .methods {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    justify-content: space-between;
+    height: 100%;
   }
 
   .method {
@@ -1201,7 +1206,7 @@
     <div class="s2-body">
       <!-- Funnel -->
       <div class="funnel anim d3">
-        <div class="funnel-step">Site Visits</div>
+        <div class="funnel-step">Web Visits / In-Studio Visits</div>
         <div class="funnel-arrow"><svg viewBox="0 0 14 14"><path d="M7 2v10M3 8l4 4 4-4"/></svg></div>
         <div class="funnel-step">Vehicle Page Views</div>
         <div class="funnel-arrow"><svg viewBox="0 0 14 14"><path d="M7 2v10M3 8l4 4 4-4"/></svg></div>
@@ -1259,7 +1264,7 @@
             <svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
           </div>
           <div>
-            <div class="method-title">Pre-launch A/B Testing</div>
+            <div class="method-title">Hypothesis A/B Testing</div>
             <div class="method-desc">Control (desktop-driven) vs experiment (mobile-driven). Added placeholder product buttons to measure click interest before building.</div>
           </div>
         </div>
