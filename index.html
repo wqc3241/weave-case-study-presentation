@@ -572,6 +572,8 @@
     position: relative;
     overflow: hidden;
     transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
   }
 
   .phase-card:hover {
@@ -630,6 +632,7 @@
   }
 
   .phase-result {
+    margin-top: auto;
     padding: 8px 12px;
     border-radius: 8px;
     background: var(--teal-glow);
