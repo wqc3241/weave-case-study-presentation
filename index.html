@@ -324,10 +324,12 @@
 
   .s1-metrics {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px 32px;
-    max-width: 600px;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px 16px;
+    max-width: 780px;
   }
+  .s1-metrics .s1-metric-group:first-child { grid-column: 1; }
+  .s1-metrics .s1-metric-group:last-child { grid-column: 3; }
 
   .s1-metric-group-label {
     display: flex;
