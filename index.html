@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Friction to Flow — Weave Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B2A4A;
+    --navy-deep: #0F1A2E;
+    --navy-mid: #243556;
+    --teal: #00B4D8;
+    --teal-light: #48CAE4;
+    --teal-glow: rgba(0, 180, 216, 0.15);
+    --coral: #E8634A;
+    --coral-light: rgba(232, 99, 74, 0.12);
+    --white: #FFFFFF;
+    --off-white: #F7F8FA;
+    --gray-100: #EEF0F4;
+    --gray-200: #D8DCE4;
+    --gray-400: #8B93A4;
+    --gray-600: #5A6377;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--navy-deep);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Slide Engine ─── */
+  .deck {
+    width: 100%; height: 100%;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute !important;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0.7s;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px 60px 0;
+  }
+
+  .slide.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .anim {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .anim.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* all elements appear simultaneously */
+
+  /* ─── Navigation ─── */
+  .nav-dots {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+    padding: 10px 20px;
+    border-radius: 40px;
+    background: rgba(27, 42, 74, 0.55);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .nav-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: all 0.35s ease;
+    border: none;
+    outline: none;
+  }
+
+  .nav-dot.active {
+    background: var(--teal);
+    box-shadow: 0 0 12px rgba(0,180,216,0.5);
+    transform: scale(1.25);
+  }
+
+  .nav-dot:hover:not(.active) {
+    background: rgba(255,255,255,0.45);
+  }
+
+  .slide-counter {
+    position: fixed;
+    top: 28px;
+    right: 36px;
+    z-index: 100;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .slide--light .slide-counter-override { color: var(--gray-400); }
+
+  /* Arrow hints */
+  .arrow-hint {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(27, 42, 74, 0.4);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s, background 0.3s;
+  }
+  .arrow-hint:hover { opacity: 1; background: rgba(27,42,74,0.65); }
+  .arrow-hint--left { left: 20px; }
+  .arrow-hint--right { right: 20px; }
+  .arrow-hint svg { width: 18px; height: 18px; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ─── SLIDE 1 — Title ─── */
+  .s1 {
+    background: var(--white);
+    color: var(--navy);
+    padding: 0;
+    position: relative;
+  }
+
+  .s1::before {
+    content: '';
+    position: absolute;
+    top: -30%; right: -10%;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .s1-inner {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 40px 60px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .s1-weave-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px 6px 10px;
+    border-radius: 24px;
+    background: var(--gray-100);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray-600);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+
+  .s1-weave-badge svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .s1-title {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 4vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: var(--navy);
+    max-width: 820px;
+    margin-bottom: 10px;
+  }
+
+  .s1-title em {
+    color: var(--teal);
+    font-style: italic;
+  }
+
+  .s1-subtitle {
+    font-size: 16px;
+    color: var(--gray-600);
+    font-weight: 400;
+    margin-bottom: 28px;
+    letter-spacing: 0.2px;
+  }
+
+  .s1-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 780px;
+    margin-bottom: 24px;
+  }
+
+  .s1-stat {
+    padding: 20px 20px;
+    border-radius: 14px;
+    background: var(--off-white);
+    border: 1px solid var(--gray-200);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .s1-stat:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(27,42,74,0.08);
+  }
+
+  .s1-stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.2vw, 30px);
+    color: var(--navy);
+    margin-bottom: 4px;
+    line-height: 1.15;
+  }
+
+  .s1-stat-value .arrow-icon {
+    display: inline;
+    color: var(--teal);
+    font-style: normal;
+    margin: 0 4px;
+  }
+
+  .s1-stat-label {
+    font-size: 13px;
+    color: var(--gray-400);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .s1-context {
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--gray-600);
+    margin-bottom: 16px;
+  }
+
+  .s1-metrics {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .s1-metric-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  .s1-metric-tag .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+
+  .s1-metric-tag .dot--primary { background: var(--teal); }
+  .s1-metric-tag .dot--guard { background: var(--gray-200); }
+
+  /* ─── SLIDE 2 — Discovery ─── */
+  .s2 {
+    background: var(--off-white);
+    color: var(--navy);
+  }
+
+  .slide-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+
+  .slide-title {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 2.8vw, 36px);
+    color: var(--navy);
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+
+  .s2-body {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 32px;
+    flex: 1;
+  }
+
+  /* Funnel */
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .funnel-step {
+    position: relative;
+    padding: 7px 14px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--navy);
+    background: var(--white);
+    border-left: 3px solid var(--gray-200);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .funnel-step:first-child { border-radius: 10px 10px 0 0; }
+  .funnel-step:last-child { border-radius: 0 0 10px 10px; }
+
+  .funnel-step + .funnel-step { border-top: 1px solid var(--gray-100); }
+
+  .funnel-step--drop {
+    border-left-color: var(--coral);
+    background: var(--coral-light);
+  }
+
+  .funnel-step .drop-badge {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--coral);
+    background: rgba(232,99,74,0.12);
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .funnel-arrow {
+    display: flex;
+    justify-content: center;
+    padding: 1px 0;
+    color: var(--gray-200);
+  }
+
+  .funnel-arrow svg { width: 14px; height: 14px; stroke: var(--gray-400); fill: none; stroke-width: 2; }
+
+  /* Discovery methods */
+  .methods {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .method {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 10px;
+    align-items: start;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    transition: box-shadow 0.3s;
+  }
+
+  .method:hover {
+    box-shadow: 0 4px 16px rgba(27,42,74,0.06);
+  }
+
+  .method-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--teal-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .method-icon svg {
+    width: 16px; height: 16px;
+    stroke: var(--teal);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .method-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 1px;
+  }
+
+  .method-desc {
+    font-size: 11px;
+    color: var(--gray-600);
+    line-height: 1.45;
+  }
+
+  .method-quote {
+    margin-top: 4px;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--teal);
+    border-left: 2px solid var(--teal-light);
+    padding-left: 10px;
+  }
+
+  .s2-hypotheses {
+    margin-top: 14px;
+    padding: 14px 20px;
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--gray-200);
+    grid-column: 1 / -1;
+  }
+
+  .s2-hypotheses h4 {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  .s2-hyp-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    list-style: none;
+  }
+
+  .s2-hyp-list li {
+    font-size: 11.5px;
+    color: var(--navy);
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--off-white);
+    border-left: 3px solid var(--teal);
+  }
+
+  /* ─── SLIDE 3 — Strategy ─── */
+  .s3 {
+    background: var(--white);
+    color: var(--navy);
+  }
+
+  .s3-phases {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .phase-card {
+    border-radius: 14px;
+    padding: 20px 18px 18px;
+    background: var(--off-white);
+    border: 1px solid var(--gray-200);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .phase-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(27,42,74,0.08);
+  }
+
+  .phase-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .phase-card:nth-child(1)::before { background: var(--teal); }
+  .phase-card:nth-child(2)::before { background: var(--teal-light); }
+  .phase-card:nth-child(3)::before { background: linear-gradient(90deg, var(--teal), var(--teal-light)); }
+
+  .phase-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+
+  .phase-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .phase-items {
+    list-style: none;
+    margin-bottom: 12px;
+  }
+
+  .phase-items li {
+    font-size: 12px;
+    color: var(--gray-600);
+    padding: 3px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .phase-items li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 12px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gray-200);
+  }
+
+  .phase-result {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--teal-glow);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .phase-result span { color: var(--teal); }
+
+  .s3-stakeholder {
+    padding: 16px 22px;
+    border-radius: 12px;
+    background: var(--navy);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  .s3-stakeholder::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,180,216,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .s3-stakeholder-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--teal-light);
+    margin-bottom: 6px;
+  }
+
+  .s3-stakeholder p {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    max-width: 90%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .s3-stakeholder p em {
+    color: var(--teal-light);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .s3-team {
+    font-size: 13px;
+    color: var(--gray-400);
+    font-weight: 500;
+  }
+
+  .s3-team strong { color: var(--navy); }
+
+  /* ─── SLIDE 4 — Results ─── */
+  .s4 {
+    background: var(--off-white);
+    color: var(--navy);
+    position: relative;
+  }
+
+  .s4 > * { position: relative; z-index: 1; }
+
+  .s4 .slide-label { color: var(--teal); }
+  .s4 .slide-title { color: var(--navy); }
+
+  .s4-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .s4-metric {
+    padding: 20px 20px;
+    border-radius: 14px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .s4-metric:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(27,42,74,0.08);
+  }
+
+  .s4-metric-value {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 32px);
+    color: var(--navy);
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+
+  .s4-metric-value .teal { color: var(--teal); }
+
+  .s4-metric-label {
+    font-size: 12.5px;
+    color: var(--gray-400);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .s4-learnings {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .s4-learning {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border-left: 3px solid var(--teal);
+    background: var(--white);
+    border-right: 1px solid var(--gray-200);
+    border-top: 1px solid var(--gray-200);
+    border-bottom: 1px solid var(--gray-200);
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--gray-600);
+  }
+
+  .s4-learning strong {
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  /* ─── SLIDE 5 — Bridge to Weave ─── */
+  .s5 {
+    background: var(--white);
+    color: var(--navy);
+    position: relative;
+  }
+
+  .s5::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: -5%;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .s5 > * { position: relative; z-index: 1; }
+
+  .s5-context {
+    font-size: 13.5px;
+    color: var(--gray-600);
+    line-height: 1.5;
+    max-width: 760px;
+    margin-bottom: 16px;
+  }
+
+  .s5-context strong {
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  .s5-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .s5-card {
+    padding: 18px 18px;
+    border-radius: 14px;
+    background: var(--off-white);
+    border: 1px solid var(--gray-200);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .s5-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(27,42,74,0.08);
+  }
+
+  .s5-card-num {
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    background: var(--teal-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  .s5-card h3 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    color: var(--navy);
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+
+  .s5-card p {
+    font-size: 11.5px;
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .s5-card .parallel {
+    font-size: 11px;
+    color: var(--teal);
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: var(--teal-glow);
+    line-height: 1.4;
+  }
+
+  .s5-90days {
+    padding: 16px 22px;
+    border-radius: 12px;
+    background: var(--navy);
+    color: var(--white);
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .s5-90days::before {
+    content: '';
+    position: absolute;
+    right: -10%; top: -50%;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,180,216,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .s5-90days > * { position: relative; z-index: 1; }
+
+  .s5-90days h4 {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--teal-light);
+    margin-bottom: 10px;
+  }
+
+  .s5-90days-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .s5-90days-list li {
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.45;
+    padding-left: 24px;
+    position: relative;
+  }
+
+  .s5-90days-list li::before {
+    content: attr(data-num);
+    position: absolute;
+    left: 0; top: 1px;
+    width: 20px; height: 20px;
+    border-radius: 5px;
+    background: rgba(0,180,216,0.2);
+    color: var(--teal-light);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .s5-closing {
+    font-family: var(--font-display);
+    font-size: clamp(16px, 1.8vw, 20px);
+    color: var(--navy);
+    line-height: 1.4;
+    max-width: 680px;
+    font-style: italic;
+  }
+
+  .s5-closing .teal { color: var(--teal); font-style: normal; }
+
+  /* ─── SLIDE 3 — E2E Journey Map ─── */
+  .s3j {
+    background: var(--off-white);
+    color: var(--navy);
+  }
+
+  /* Flow bar */
+  .journey-flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: 18px;
+    position: relative;
+  }
+
+  .journey-phase {
+    flex: 1;
+    position: relative;
+  }
+
+  .journey-phase-header {
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--white);
+    border-radius: 6px 6px 0 0;
+  }
+
+  .journey-phase--discovery .journey-phase-header { background: #6366F1; }
+  .journey-phase--acquired .journey-phase-header { background: var(--teal); }
+  .journey-phase--purchasing .journey-phase-header { background: #F59E0B; color: var(--navy); }
+  .journey-phase--purchase .journey-phase-header { background: #10B981; }
+
+  .journey-steps {
+    display: flex;
+    gap: 0;
+  }
+
+  .journey-step {
+    flex: 1;
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--navy);
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-top: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+  }
+
+  .journey-step:first-child { border-radius: 0 0 0 6px; }
+  .journey-step:last-child { border-radius: 0 0 6px 0; }
+
+  .journey-phase--discovery .journey-step { border-bottom: 3px solid #6366F1; }
+  .journey-phase--acquired .journey-step { border-bottom: 3px solid var(--teal); }
+  .journey-phase--purchasing .journey-step { border-bottom: 3px solid #F59E0B; }
+  .journey-phase--purchase .journey-step { border-bottom: 3px solid #10B981; }
+
+  /* Arrow connectors between phases */
+  .journey-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    flex-shrink: 0;
+    color: var(--gray-400);
+    font-size: 16px;
+  }
+
+  /* Phase product grids */
+  .journey-details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .journey-detail-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .journey-detail-col-header {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  .journey-detail-col--discovery .journey-detail-col-header {
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366F1;
+  }
+  .journey-detail-col--acquired .journey-detail-col-header {
+    background: var(--teal-glow);
+    color: var(--teal);
+  }
+  .journey-detail-col--purchasing .journey-detail-col-header {
+    background: rgba(245, 158, 11, 0.1);
+    color: #D97706;
+  }
+  .journey-detail-col--purchase .journey-detail-col-header {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10B981;
+  }
+
+  .journey-product-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .journey-product-list li {
+    padding: 6px 10px;
+    background: var(--white);
+    border-radius: 6px;
+    border: 1px solid var(--gray-200);
+    font-size: 10.5px;
+    color: var(--gray-600);
+    line-height: 1.4;
+  }
+
+  .journey-metric-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: 3px;
+  }
+
+  .journey-metric-tag {
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .jmt--ttv { background: #EEF2FF; color: #6366F1; }
+  .jmt--revenue { background: #ECFDF5; color: #10B981; }
+  .jmt--delivery { background: #FEF3C7; color: #D97706; }
+  .jmt--conversion { background: #E0F2FE; color: #0284C7; }
+
+  /* Metric legend */
+  .journey-legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    padding: 8px 14px;
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--gray-200);
+    width: fit-content;
+  }
+
+  .journey-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--gray-600);
+  }
+
+  .journey-legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 1100px) {
+    .s2-body { grid-template-columns: 1fr; }
+    .s3-phases { grid-template-columns: 1fr; }
+    .s4-metrics { grid-template-columns: repeat(2, 1fr); }
+    .s5-cards { grid-template-columns: 1fr; }
+    .s5-90days-list { grid-template-columns: 1fr; }
+    .s2-hyp-list { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .s1-inner { padding: 40px 32px 80px; }
+    .s1-stats { grid-template-columns: 1fr; }
+    .slide { padding-left: 32px !important; padding-right: 32px !important; }
+    .s4-metrics { grid-template-columns: 1fr; }
+    .s4-learnings { grid-template-columns: 1fr; }
+    .s2-hyp-list { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- ═══════ SLIDE 1 — Problem & Opportunity ═══════ -->
+  <div class="slide s1 active" data-slide="0">
+    <div class="s1-inner">
+      <div class="s1-weave-badge anim d1">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 6C12 6 8 2 4 6C0 10 4 14 8 14C12 14 12 10 12 10C12 10 12 14 16 14C20 14 24 10 20 6C16 2 12 6 12 6Z" stroke="#1B2A4A" stroke-width="1.5" fill="none"/>
+          <path d="M12 14C12 14 8 10 4 14C0 18 4 22 8 22C12 22 12 18 12 18C12 18 12 22 16 22C20 22 24 18 20 14C16 10 12 14 12 14Z" stroke="#1B2A4A" stroke-width="1.5" fill="none"/>
+        </svg>
+        Weave — Case Study Presentation
+      </div>
+      <h1 class="s1-title anim d2">From Friction to <em>Flow</em></h1>
+      <p class="s1-subtitle anim d3">Tom &nbsp;|&nbsp; Product Manager, PLG &mdash; Rebuilding a $62M Digital Purchasing Journey</p>
+
+      <div class="s1-stats anim d4">
+        <div class="s1-stat">
+          <div class="s1-stat-value">1 week <span class="arrow-icon">&rarr;</span> 5 min</div>
+          <div class="s1-stat-label">Credit Decision Time</div>
+        </div>
+        <div class="s1-stat">
+          <div class="s1-stat-value">30% <span class="arrow-icon">&rarr;</span> 60%</div>
+          <div class="s1-stat-label">Deposit-to-Delivery</div>
+        </div>
+        <div class="s1-stat">
+          <div class="s1-stat-value">$62M</div>
+          <div class="s1-stat-label">Incremental Quarterly Revenue</div>
+        </div>
+      </div>
+
+      <p class="s1-context anim d5">At Lucid Motors, the digital purchasing journey was fragmented&mdash;separate systems for deposits, financing, credit decisions, and delivery scheduling. 65% of traffic was mobile, yet mobile converted 20% lower than desktop. Every step required a sales advisor. <strong>The opportunity:</strong> collapse a week-long, high-touch financing flow into a self-serve, instant experience.</p>
+
+      <div class="s1-metrics anim d6">
+        <span class="s1-metric-tag"><span class="dot dot--primary"></span>Primary: Customer conversion rate (deposit &rarr; delivery)</span>
+        <span class="s1-metric-tag"><span class="dot dot--guard"></span>Guardrails: Drop-off rate, approval-to-delivery %, product usage %</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 2 — Discovery & Insights ═══════ -->
+  <div class="slide s2" data-slide="1">
+    <div class="slide-content">
+    <div class="slide-label anim d1">02 &mdash; Discovery</div>
+    <h2 class="slide-title anim d2">Following the Data to the Biggest Drop-off</h2>
+
+    <div class="s2-body">
+      <!-- Funnel -->
+      <div class="funnel anim d3">
+        <div class="funnel-step">Site Visits</div>
+        <div class="funnel-arrow"><svg viewBox="0 0 14 14"><path d="M7 2v10M3 8l4 4 4-4"/></svg></div>
+        <div class="funnel-step">Vehicle Page Views</div>
+        <div class="funnel-arrow"><svg viewBox="0 0 14 14"><path d="M7 2v10M3 8l4 4 4-4"/></svg></div>
+        <div class="funnel-step">Deposit Button Clicks</div>
+        <div class="funnel-arrow"><svg viewBox="0 0 14 14"><path d="M7 2v10M3 8l4 4 4-4"/></svg></div>
+        <div class="funnel-step">Document Uploads</div>
+        <div class="funnel-arrow"><svg viewBox="0 0 14 14"><path d="M7 2v10M3 8l4 4 4-4"/></svg></div>
+        <div class="funnel-step funnel-step--drop">
+          Finance Applications
+          <span class="drop-badge">#1 Drop-off</span>
+        </div>
+        <div class="funnel-arrow"><svg viewBox="0 0 14 14"><path d="M7 2v10M3 8l4 4 4-4"/></svg></div>
+        <div class="funnel-step funnel-step--drop">
+          Credit Decision
+          <span class="drop-badge">~1 Week Wait</span>
+        </div>
+        <div class="funnel-arrow"><svg viewBox="0 0 14 14"><path d="M7 2v10M3 8l4 4 4-4"/></svg></div>
+        <div class="funnel-step">Signed Contracts</div>
+        <div class="funnel-arrow"><svg viewBox="0 0 14 14"><path d="M7 2v10M3 8l4 4 4-4"/></svg></div>
+        <div class="funnel-step">Delivery Completion</div>
+      </div>
+
+      <!-- Methods -->
+      <div class="methods">
+        <div class="method anim d4">
+          <div class="method-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 4 5-9"/></svg>
+          </div>
+          <div>
+            <div class="method-title">Funnel Analytics</div>
+            <div class="method-desc">Built end-to-end dropout dashboard; identified credit decision step as the #1 drop-off point.</div>
+          </div>
+        </div>
+        <div class="method anim d5">
+          <div class="method-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <div class="method-title">Customer Surveys</div>
+            <div class="method-desc">Complaints about clunky mobile experience confirmed by quantitative data&mdash;65% mobile traffic, 20% lower conversion.</div>
+          </div>
+        </div>
+        <div class="method anim d6">
+          <div class="method-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div>
+            <div class="method-title">Studio Visits</div>
+            <div class="method-desc">Took designers &amp; engineers to observe real customers and sales advisors in-studio.</div>
+            <div class="method-quote">"I can't complete the application on my mobile phone."</div>
+          </div>
+        </div>
+        <div class="method anim d7">
+          <div class="method-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          </div>
+          <div>
+            <div class="method-title">Pre-launch A/B Testing</div>
+            <div class="method-desc">Control (desktop-driven) vs experiment (mobile-driven). Added placeholder product buttons to measure click interest before building.</div>
+          </div>
+        </div>
+        <div class="method anim d8">
+          <div class="method-icon">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div>
+            <div class="method-title">Competitive Benchmark</div>
+            <div class="method-desc">Affirm &amp; Klarna set the bar for instant decisioning. Sales confirmed: "Customers can't wait 5 days."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s2-hypotheses anim d9">
+      <h4>Key Hypotheses Formed</h4>
+      <ul class="s2-hyp-list">
+        <li>Fix the largest drop-off&mdash;credit decisioning</li>
+        <li>Mobile-first redesign of the entire journey</li>
+        <li>Add more product options to the journey</li>
+        <li>Close critical technical gaps</li>
+      </ul>
+    </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 3 — E2E Journey Map ═══════ -->
+  <div class="slide s3j" data-slide="2">
+    <div class="slide-content">
+    <div class="slide-label anim d1">03 &mdash; End-to-End Journey</div>
+    <h2 class="slide-title anim d1">Products Shipped Across the Customer Journey</h2>
+
+    <!-- Flow bar -->
+    <div class="journey-flow anim d1">
+      <div class="journey-phase journey-phase--discovery">
+        <div class="journey-phase-header">Discovery</div>
+        <div class="journey-steps">
+          <div class="journey-step">Website Visit</div>
+          <div class="journey-step">Vehicle Details</div>
+        </div>
+      </div>
+      <div class="journey-arrow">&rarr;</div>
+      <div class="journey-phase journey-phase--acquired">
+        <div class="journey-phase-header">User Acquired</div>
+        <div class="journey-steps">
+          <div class="journey-step">Deposit</div>
+        </div>
+      </div>
+      <div class="journey-arrow">&rarr;</div>
+      <div class="journey-phase journey-phase--purchasing">
+        <div class="journey-phase-header">Purchasing Experience</div>
+        <div class="journey-steps">
+          <div class="journey-step">Credit App</div>
+          <div class="journey-step">Finance Decision</div>
+          <div class="journey-step">Doc Upload</div>
+        </div>
+      </div>
+      <div class="journey-arrow">&rarr;</div>
+      <div class="journey-phase journey-phase--purchase">
+        <div class="journey-phase-header">User Purchase</div>
+        <div class="journey-steps">
+          <div class="journey-step">Sign Contract</div>
+          <div class="journey-step">Take Delivery</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products per phase -->
+    <div class="journey-details anim d1">
+      <div class="journey-detail-col journey-detail-col--discovery">
+        <div class="journey-detail-col-header">Discovery Products</div>
+        <ul class="journey-product-list">
+          <li>Mobile-first UI redesign
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--conversion">Conversion</span></div>
+          </li>
+          <li>Marketing financing spotlight
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--revenue">Revenue</span></div>
+          </li>
+          <li>Payment calculator on website
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--revenue">Revenue</span><span class="journey-metric-tag jmt--conversion">Conversion</span></div>
+          </li>
+          <li>A/B test: desktop vs. mobile UX
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--conversion">Conversion</span></div>
+          </li>
+        </ul>
+      </div>
+      <div class="journey-detail-col journey-detail-col--acquired">
+        <div class="journey-detail-col-header">Acquired Products</div>
+        <ul class="journey-product-list">
+          <li>Mobile deposit flow redesign
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--conversion">Conversion</span><span class="journey-metric-tag jmt--ttv">TTV</span></div>
+          </li>
+          <li>Placeholder product buttons (co-buyer, trade-in, lease)
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--delivery">Delivery</span></div>
+          </li>
+        </ul>
+      </div>
+      <div class="journey-detail-col journey-detail-col--purchasing">
+        <div class="journey-detail-col-header">Purchasing Products</div>
+        <ul class="journey-product-list">
+          <li>Instant credit via DealerTrack API (1wk &rarr; &lt;5min)
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--ttv">TTV</span><span class="journey-metric-tag jmt--delivery">Delivery</span></div>
+          </li>
+          <li>Co-borrower product
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--conversion">Conversion</span><span class="journey-metric-tag jmt--revenue">Revenue</span></div>
+          </li>
+          <li>Trade-in &amp; lease products
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--revenue">Revenue</span></div>
+          </li>
+          <li>AI pricing engine (2x launch speed)
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--ttv">TTV</span><span class="journey-metric-tag jmt--revenue">Revenue</span></div>
+          </li>
+          <li>AI chatbot (10min &rarr; 6min completion)
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--ttv">TTV</span><span class="journey-metric-tag jmt--conversion">Conversion</span></div>
+          </li>
+        </ul>
+      </div>
+      <div class="journey-detail-col journey-detail-col--purchase">
+        <div class="journey-detail-col-header">Purchase Products</div>
+        <ul class="journey-product-list">
+          <li>Sales enablement comm. kit
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--delivery">Delivery</span></div>
+          </li>
+          <li>Canada expansion (lease, local formatting)
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--revenue">Revenue</span><span class="journey-metric-tag jmt--delivery">Delivery</span></div>
+          </li>
+          <li>Middle East expansion (annual payments)
+            <div class="journey-metric-tags"><span class="journey-metric-tag jmt--revenue">Revenue</span></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="journey-legend anim d1">
+      <div class="journey-legend-item"><span class="journey-legend-dot" style="background:#6366F1"></span>Time to Value</div>
+      <div class="journey-legend-item"><span class="journey-legend-dot" style="background:#10B981"></span>Revenue Growth</div>
+      <div class="journey-legend-item"><span class="journey-legend-dot" style="background:#D97706"></span>Delivery Conversion</div>
+      <div class="journey-legend-item"><span class="journey-legend-dot" style="background:#0284C7"></span>Conversion Improvement</div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 4 — Strategy & Execution ═══════ -->
+  <div class="slide s3" data-slide="3">
+    <div class="slide-content">
+    <div class="slide-label anim d1">04 &mdash; Strategy &amp; Execution</div>
+    <h2 class="slide-title anim d2">Three Phased Bets Over 9 Months</h2>
+
+    <div class="s3-phases">
+      <div class="phase-card anim d3">
+        <div class="phase-label">MVP &mdash; Months 1&ndash;3</div>
+        <div class="phase-title">Foundation</div>
+        <ul class="phase-items">
+          <li>Instant credit decision via DealerTrack API (1 week &rarr; &lt;5 min)</li>
+          <li>Mobile-first UI redesign for purchasing app</li>
+          <li>Phased rollout: California first, then expand</li>
+          <li>Build vs Buy: DealerTrack&mdash;time-sensitive, better support, future add-ons</li>
+        </ul>
+        <div class="phase-result"><span>Result:</span> +20% mobile conversion, ~100 new vehicles/week</div>
+      </div>
+      <div class="phase-card anim d4">
+        <div class="phase-label">Phase 2 &mdash; Months 4&ndash;6</div>
+        <div class="phase-title">Expand</div>
+        <ul class="phase-items">
+          <li>Co-borrower product launch</li>
+          <li>Trade-in / lease product</li>
+          <li>AI pricing engine for non-engineers to configure regional programs (2x launch speed)</li>
+        </ul>
+        <div class="phase-result"><span>Result:</span> +5&ndash;10% additional conversion growth</div>
+      </div>
+      <div class="phase-card anim d5">
+        <div class="phase-label">Phase 3 &mdash; Months 7&ndash;9</div>
+        <div class="phase-title">Scale</div>
+        <ul class="phase-items">
+          <li>Canada expansion (lease product, local formatting)</li>
+          <li>Middle East expansion (annual payment program)</li>
+          <li>AI chatbot for purchasing questions &amp; financing procedures</li>
+        </ul>
+        <div class="phase-result"><span>Result:</span> +80% Canada sales, +60% ME leads</div>
+      </div>
+    </div>
+
+    <div class="s3-stakeholder anim d6">
+      <div class="s3-stakeholder-label">Navigating Stakeholder Pushback</div>
+      <p>Sales Ops pushed back hard&mdash;no proven results, tight bandwidth, fear of disruption. I addressed each concern 1:1: <em>shared A/B data</em> to prove potential, <em>committed zero resource ask</em> from her team, and <em>promised pre-launch testing involvement</em> so changes wouldn't break their flow. Then I used AI to build an end-to-end prototype so she could <em>experience it as a customer</em>. She became the biggest advocate.</p>
+    </div>
+
+    <div class="s3-team anim d7"><strong>Team:</strong> 2 designers, 5 FTE engineers, ~10 contractors (15 total)</div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 4 — Results & Learnings ═══════ -->
+  <div class="slide s4" data-slide="4">
+    <div class="slide-content">
+    <div class="slide-label anim d1">05 &mdash; Results</div>
+    <h2 class="slide-title anim d2">What We Delivered</h2>
+
+    <div class="s4-metrics">
+      <div class="s4-metric anim d3">
+        <div class="s4-metric-value">30% <span class="teal">&rarr;</span> 60%</div>
+        <div class="s4-metric-label">Deposit-to-Delivery Conversion</div>
+      </div>
+      <div class="s4-metric anim d4">
+        <div class="s4-metric-value">$62M</div>
+        <div class="s4-metric-label">Incremental Quarterly Revenue</div>
+      </div>
+      <div class="s4-metric anim d5">
+        <div class="s4-metric-value">1 wk <span class="teal">&rarr;</span> &lt;5 min</div>
+        <div class="s4-metric-label">Credit Decision Time</div>
+      </div>
+      <div class="s4-metric anim d6">
+        <div class="s4-metric-value">~3,000<span class="teal">/mo</span></div>
+        <div class="s4-metric-label">Vehicle Deliveries</div>
+      </div>
+      <div class="s4-metric anim d7">
+        <div class="s4-metric-value"><span class="teal">&minus;</span>30%</div>
+        <div class="s4-metric-label">FinOps Workload (AI Chatbot)</div>
+      </div>
+      <div class="s4-metric anim d8">
+        <div class="s4-metric-value"><span class="teal">+</span>80% / <span class="teal">+</span>60%</div>
+        <div class="s4-metric-label">Canada Sales / ME Leads Growth</div>
+      </div>
+    </div>
+
+    <div class="s4-learnings">
+      <div class="s4-learning anim d7">
+        <strong>Fix the biggest bottleneck first</strong>&mdash;instant credit decisioning unlocked everything downstream.
+      </div>
+      <div class="s4-learning anim d8">
+        <strong>Pre-launch A/B testing de-risks bets</strong>&mdash;builds stakeholder confidence before committing resources.
+      </div>
+      <div class="s4-learning anim d9">
+        <strong>Show, don't tell</strong>&mdash;the AI prototype converted our toughest skeptic into our biggest champion.
+      </div>
+      <div class="s4-learning anim d10">
+        <strong>Phase rollouts geographically</strong>&mdash;California-first let us validate before scaling globally.
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 5 — Bridge to Weave ═══════ -->
+  <div class="slide s5" data-slide="5">
+    <div class="slide-content">
+    <div class="slide-label anim d1">06 &mdash; Looking Forward</div>
+    <h2 class="slide-title anim d2">How I'd Apply This at Weave</h2>
+
+    <p class="s5-context anim d3">Weave faces the same transformation: <strong>high-touch service &rarr; self-serve, AI-driven growth</strong>. ~40K locations, &lt;15% dental penetration, 93% NRR with room to grow.</p>
+
+    <div class="s5-cards">
+      <div class="s5-card anim d4">
+        <div class="s5-card-num">1</div>
+        <h3>Collapse Onboarding TTV</h3>
+        <p>AI-guided setup that auto-imports contacts, configures workflows, and delivers value in the first session.</p>
+        <div class="parallel">Lucid parallel: 1 week &rarr; 5 min credit decision was the single biggest conversion unlock.</div>
+      </div>
+      <div class="s5-card anim d5">
+        <div class="s5-card-num">2</div>
+        <h3>Self-Serve Feature Discovery</h3>
+        <p>In-app ROI calculators for Payments, AI Receptionist&mdash;help practices see value before they commit.</p>
+        <div class="parallel">Lucid parallel: Payment calculator drove 60% more inbound leads without adding sales headcount.</div>
+      </div>
+      <div class="s5-card anim d6">
+        <div class="s5-card-num">3</div>
+        <h3>Activation-Based Retention</h3>
+        <p>Instrument the funnel, identify at-risk practices not using key features, trigger AI-powered nudges.</p>
+        <div class="parallel">Lucid parallel: Pre-launch A/B testing + phased rollout ensured we shipped what customers needed.</div>
+      </div>
+    </div>
+
+    <div class="s5-90days anim d7">
+      <h4>First 90 Days</h4>
+      <ul class="s5-90days-list">
+        <li data-num="1">Map the self-serve activation funnel end-to-end&mdash;find the biggest drop-off</li>
+        <li data-num="2">Talk to 20+ practices to learn what "value" means in their first week</li>
+        <li data-num="3">Ship one high-impact TTV reduction experiment</li>
+      </ul>
+    </div>
+
+    <p class="s5-closing anim d8">I've done this transformation before&mdash;from high-touch to self-serve, from manual to AI-driven, from single-market to global. <span class="teal">I'm ready to do it again at Weave.</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav-dots" id="navDots">
+  <button class="nav-dot active" data-goto="0" aria-label="Slide 1"></button>
+  <button class="nav-dot" data-goto="1" aria-label="Slide 2"></button>
+  <button class="nav-dot" data-goto="2" aria-label="Slide 3"></button>
+  <button class="nav-dot" data-goto="3" aria-label="Slide 4"></button>
+  <button class="nav-dot" data-goto="4" aria-label="Slide 5"></button>
+  <button class="nav-dot" data-goto="5" aria-label="Slide 6"></button>
+</div>
+
+<div class="slide-counter" id="slideCounter">1 / 6</div>
+
+<div class="arrow-hint arrow-hint--left" id="arrowLeft" style="display:none" aria-label="Previous slide">
+  <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+</div>
+<div class="arrow-hint arrow-hint--right" id="arrowRight" aria-label="Next slide">
+  <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+</div>
+
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.nav-dot');
+  const counter = document.getElementById('slideCounter');
+  const arrowL = document.getElementById('arrowLeft');
+  const arrowR = document.getElementById('arrowRight');
+  let current = 0;
+  const total = slides.length;
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total || idx === current) return;
+    // Hide old slide's anims
+    slides[current].querySelectorAll('.anim').forEach(el => el.classList.remove('visible'));
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    counter.textContent = (current + 1) + ' / ' + total;
+    arrowL.style.display = current === 0 ? 'none' : 'flex';
+    arrowR.style.display = current === total - 1 ? 'none' : 'flex';
+
+    // Trigger staggered entry
+    setTimeout(() => {
+      slides[current].querySelectorAll('.anim').forEach(el => el.classList.add('visible'));
+    }, 50);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+    if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+  });
+
+  dots.forEach(dot => dot.addEventListener('click', () => goTo(+dot.dataset.goto)));
+  arrowL.addEventListener('click', () => goTo(current - 1));
+  arrowR.addEventListener('click', () => goTo(current + 1));
+
+  // Init first slide anims
+  setTimeout(() => {
+    slides[0].querySelectorAll('.anim').forEach(el => el.classList.add('visible'));
+  }, 100);
+
+  // Touch support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 60) { diff > 0 ? goTo(current + 1) : goTo(current - 1); }
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
