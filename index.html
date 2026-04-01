@@ -270,6 +270,48 @@
     margin-bottom: 16px;
   }
 
+  .s1-beforeafter {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 12px;
+    max-width: 780px;
+  }
+  .s1-ba-col {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+  }
+  .s1-ba-before { background: rgba(245, 180, 175, 0.08); border-color: var(--coral); }
+  .s1-ba-after { background: var(--accent-glow); border-color: var(--accent); }
+  .s1-ba-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 6px;
+  }
+  .s1-ba-before .s1-ba-label { color: var(--coral-dark); }
+  .s1-ba-after .s1-ba-label { color: var(--accent); }
+  .s1-ba-steps {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: 10.5px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .s1-ba-arrow { color: var(--text-light); font-size: 9px; }
+  .s1-ba-pain { color: var(--coral-dark); font-weight: 600; }
+  .s1-ba-win { color: var(--accent); font-weight: 600; }
+  .s1-ba-divider {
+    font-size: 20px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
   .s1-metrics {
     display: flex;
     gap: 28px;
@@ -1085,7 +1127,37 @@
         </div>
       </div>
 
-      <p class="s1-context anim d5">At Lucid Motors, the digital purchasing journey was fragmented&mdash;separate systems for deposits, financing, credit decisions, and delivery scheduling. 65% of traffic was mobile, yet mobile converted 20% lower than desktop. Every step required a sales advisor. <strong>The opportunity:</strong> collapse a week-long, high-touch financing flow into a self-serve, instant experience.</p>
+      <div class="s1-beforeafter anim d5">
+        <div class="s1-ba-col s1-ba-before">
+          <div class="s1-ba-label">Before</div>
+          <div class="s1-ba-steps">
+            <span>Customer visits site</span>
+            <span class="s1-ba-arrow">&rarr;</span>
+            <span>Sales advisor required</span>
+            <span class="s1-ba-arrow">&rarr;</span>
+            <span>Manual credit app (email)</span>
+            <span class="s1-ba-arrow">&rarr;</span>
+            <span class="s1-ba-pain">~1 week wait</span>
+            <span class="s1-ba-arrow">&rarr;</span>
+            <span>30% convert</span>
+          </div>
+        </div>
+        <div class="s1-ba-divider">&rarr;</div>
+        <div class="s1-ba-col s1-ba-after">
+          <div class="s1-ba-label">After</div>
+          <div class="s1-ba-steps">
+            <span>Mobile-first journey</span>
+            <span class="s1-ba-arrow">&rarr;</span>
+            <span>Self-serve deposit</span>
+            <span class="s1-ba-arrow">&rarr;</span>
+            <span>Instant credit (DealerTrack)</span>
+            <span class="s1-ba-arrow">&rarr;</span>
+            <span class="s1-ba-win">&lt;5 min decision</span>
+            <span class="s1-ba-arrow">&rarr;</span>
+            <span>60% convert</span>
+          </div>
+        </div>
+      </div>
 
       <div class="s1-metrics anim d6">
         <span class="s1-metric-tag"><span class="dot dot--primary"></span>Primary: Customer conversion rate (deposit &rarr; delivery)</span>
@@ -1189,10 +1261,65 @@
     </div>
   </div>
 
-  <!-- ═══════ SLIDE 3 — E2E Journey Map ═══════ -->
-  <div class="slide s3j" data-slide="2">
+  <!-- ═══════ SLIDE 3 — Strategy & Execution ═══════ -->
+  <div class="slide s3" data-slide="2">
     <div class="slide-content">
-    <div class="slide-label anim d1">03 &mdash; End-to-End Journey</div>
+    <div class="slide-label anim d1">03 &mdash; Strategy &amp; Execution</div>
+    <h2 class="slide-title anim d2">Three Phased Bets Over 9 Months</h2>
+
+    <div class="s3-phases">
+      <div class="phase-card anim d3">
+        <div class="phase-label">MVP &mdash; Months 1&ndash;3</div>
+        <div class="phase-title">Foundation</div>
+        <ul class="phase-items">
+          <li>Instant credit decision via DealerTrack API (1 week &rarr; &lt;5 min)</li>
+          <li>Mobile-first UI redesign for purchasing app</li>
+          <li>Phased rollout: California first, then expand</li>
+          <li>Build vs Buy: DealerTrack&mdash;time-sensitive, better support, future add-ons</li>
+        </ul>
+        <div class="phase-result"><span>Result:</span> +20% mobile conversion, ~100 new vehicles/week</div>
+      </div>
+      <div class="phase-card anim d4">
+        <div class="phase-label">Phase 2 &mdash; Months 4&ndash;6</div>
+        <div class="phase-title">Expand</div>
+        <ul class="phase-items">
+          <li>Co-borrower product launch</li>
+          <li>Trade-in / lease product</li>
+          <li>AI pricing engine for non-engineers to configure regional programs (2x launch speed)</li>
+        </ul>
+        <div class="phase-result"><span>Result:</span> +5&ndash;10% additional conversion growth</div>
+      </div>
+      <div class="phase-card anim d5">
+        <div class="phase-label">Phase 3 &mdash; Months 7&ndash;9</div>
+        <div class="phase-title">Scale</div>
+        <ul class="phase-items">
+          <li>Canada expansion (lease product, local formatting)</li>
+          <li>Middle East expansion (annual payment program)</li>
+          <li>AI chatbot for purchasing questions &amp; financing procedures</li>
+        </ul>
+        <div class="phase-result"><span>Result:</span> +80% Canada sales, +60% ME leads</div>
+      </div>
+    </div>
+
+    <div class="s3-stakeholder anim d6">
+      <div class="s3-stakeholder-label">Navigating Stakeholder Pushback</div>
+      <p>Sales Ops pushed back hard&mdash;no proven results, tight bandwidth, fear of disruption. I addressed each concern 1:1: <em>shared A/B data</em> to prove potential, <em>committed zero resource ask</em> from her team, and <em>promised pre-launch testing involvement</em> so changes wouldn't break their flow. Then I used AI to build an end-to-end prototype so she could <em>experience it as a customer</em>. She became the biggest advocate.</p>
+    </div>
+
+    <div class="s3-bottom anim d7" style="display:flex;gap:16px;align-items:start;">
+      <div style="flex:1;font-size:11px;color:var(--text);line-height:1.5;">
+        <strong style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:1px;">GTM Collaboration</strong><br>
+        Created sales enablement kit for each phase launch. Secured marketing spotlight for financing offers on website. Localized product &amp; GTM for Canada and Middle East expansion.
+      </div>
+      <div style="font-size:11px;color:var(--text-light);white-space:nowrap;"><strong style="color:var(--primary);">Team:</strong> 2 designers, 15 engineers</div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 4 — E2E Journey Map ═══════ -->
+  <div class="slide s3j" data-slide="3">
+    <div class="slide-content">
+    <div class="slide-label anim d1">04 &mdash; End-to-End Journey</div>
     <h2 class="slide-title anim d1">Products Shipped Across the Customer Journey</h2>
 
     <!-- Flow bar -->
@@ -1306,55 +1433,6 @@
     </div>
   </div>
 
-  <!-- ═══════ SLIDE 4 — Strategy & Execution ═══════ -->
-  <div class="slide s3" data-slide="3">
-    <div class="slide-content">
-    <div class="slide-label anim d1">04 &mdash; Strategy &amp; Execution</div>
-    <h2 class="slide-title anim d2">Three Phased Bets Over 9 Months</h2>
-
-    <div class="s3-phases">
-      <div class="phase-card anim d3">
-        <div class="phase-label">MVP &mdash; Months 1&ndash;3</div>
-        <div class="phase-title">Foundation</div>
-        <ul class="phase-items">
-          <li>Instant credit decision via DealerTrack API (1 week &rarr; &lt;5 min)</li>
-          <li>Mobile-first UI redesign for purchasing app</li>
-          <li>Phased rollout: California first, then expand</li>
-          <li>Build vs Buy: DealerTrack&mdash;time-sensitive, better support, future add-ons</li>
-        </ul>
-        <div class="phase-result"><span>Result:</span> +20% mobile conversion, ~100 new vehicles/week</div>
-      </div>
-      <div class="phase-card anim d4">
-        <div class="phase-label">Phase 2 &mdash; Months 4&ndash;6</div>
-        <div class="phase-title">Expand</div>
-        <ul class="phase-items">
-          <li>Co-borrower product launch</li>
-          <li>Trade-in / lease product</li>
-          <li>AI pricing engine for non-engineers to configure regional programs (2x launch speed)</li>
-        </ul>
-        <div class="phase-result"><span>Result:</span> +5&ndash;10% additional conversion growth</div>
-      </div>
-      <div class="phase-card anim d5">
-        <div class="phase-label">Phase 3 &mdash; Months 7&ndash;9</div>
-        <div class="phase-title">Scale</div>
-        <ul class="phase-items">
-          <li>Canada expansion (lease product, local formatting)</li>
-          <li>Middle East expansion (annual payment program)</li>
-          <li>AI chatbot for purchasing questions &amp; financing procedures</li>
-        </ul>
-        <div class="phase-result"><span>Result:</span> +80% Canada sales, +60% ME leads</div>
-      </div>
-    </div>
-
-    <div class="s3-stakeholder anim d6">
-      <div class="s3-stakeholder-label">Navigating Stakeholder Pushback</div>
-      <p>Sales Ops pushed back hard&mdash;no proven results, tight bandwidth, fear of disruption. I addressed each concern 1:1: <em>shared A/B data</em> to prove potential, <em>committed zero resource ask</em> from her team, and <em>promised pre-launch testing involvement</em> so changes wouldn't break their flow. Then I used AI to build an end-to-end prototype so she could <em>experience it as a customer</em>. She became the biggest advocate.</p>
-    </div>
-
-    <div class="s3-team anim d7"><strong>Team:</strong> 2 designers, 5 FTE engineers, ~10 contractors (15 total)</div>
-    </div>
-  </div>
-
   <!-- ═══════ SLIDE 4 — Results & Learnings ═══════ -->
   <div class="slide s4" data-slide="4">
     <div class="slide-content">
@@ -1399,7 +1477,7 @@
         <strong>Show, don't tell</strong>&mdash;the AI prototype converted our toughest skeptic into our biggest champion.
       </div>
       <div class="s4-learning anim d10">
-        <strong>Phase rollouts geographically</strong>&mdash;California-first let us validate before scaling globally.
+        <strong>What surprised me</strong>&mdash;the AI prototype I built for stakeholder buy-in had more impact on adoption than any data deck. Lesson: let people experience the product, not just hear about it.
       </div>
     </div>
     </div>
@@ -1411,7 +1489,7 @@
     <div class="slide-label anim d1">06 &mdash; Looking Forward</div>
     <h2 class="slide-title anim d2">How I'd Apply This at Weave</h2>
 
-    <p class="s5-context anim d3">Weave faces the same transformation: <strong>high-touch service &rarr; self-serve, AI-driven growth</strong>. ~40K locations, &lt;15% dental penetration, 93% NRR with room to grow.</p>
+    <p class="s5-context anim d3">Weave faces the same transformation: <strong>high-touch service &rarr; self-serve, AI-driven growth</strong>. The TrueLark acquisition and Unified Inbox launch create a once-in-a-generation PLG opportunity &mdash; AI-powered patient engagement across ~40K locations, with &lt;15% dental penetration and 93% NRR leaving massive room to grow.</p>
 
     <div class="s5-cards">
       <div class="s5-card anim d4">
