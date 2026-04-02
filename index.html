@@ -45,7 +45,7 @@
   html, body {
     width: 100%; height: 100%;
     overflow: hidden;
-    background: #000;
+    background: var(--bg);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     display: flex;
@@ -59,7 +59,6 @@
     height: 720px;
     position: relative;
     transform-origin: center center;
-    background: var(--bg);
     overflow: hidden;
   }
 
@@ -79,8 +78,8 @@
 
   .slide-content {
     width: 100%;
-    max-width: 1160px;
-    padding: 36px 60px 0;
+    max-width: 1080px;
+    padding: 36px 40px 0;
   }
 
   .slide.active {
@@ -172,11 +171,11 @@
 
   .s1-inner {
     width: 100%;
-    max-width: 1160px;
+    max-width: 1080px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 36px 60px 0;
+    padding: 36px 40px 0;
     position: relative;
     z-index: 1;
   }
@@ -1593,7 +1592,7 @@
 </div>
 
 <script>
-// Scale deck to fit viewport while maintaining 16:9
+// Scale deck to fit viewport — background extends beyond
 (function() {
   const deck = document.getElementById('deck');
   function scaleDeck() {
