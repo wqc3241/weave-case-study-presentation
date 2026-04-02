@@ -74,6 +74,10 @@
     width: 100%;
     max-width: 1200px;
     padding: 40px 60px 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
   }
 
   .slide.active {
@@ -385,7 +389,7 @@
     font-family: var(--font-display);
     font-size: clamp(24px, 2.8vw, 36px);
     color: var(--navy);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     line-height: 1.15;
   }
 
@@ -408,7 +412,7 @@
 
   .funnel-step {
     position: relative;
-    padding: 7px 14px;
+    padding: 9px 14px;
     font-size: 11.5px;
     font-weight: 600;
     color: var(--primary);
@@ -455,7 +459,7 @@
   .methods {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     justify-content: space-between;
     height: 100%;
   }
@@ -465,7 +469,7 @@
     grid-template-columns: 32px 1fr;
     gap: 10px;
     align-items: start;
-    padding: 8px 12px;
+    padding: 10px 14px;
     border-radius: 12px;
     background: var(--white);
     border: 1px solid var(--gray-200);
