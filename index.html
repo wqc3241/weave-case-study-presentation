@@ -1117,18 +1117,28 @@
 
   /* ─── Responsive ─── */
   @media (max-width: 600px) {
+    .slide {
+      overflow-y: auto !important;
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+    .slide-content { padding: 24px 16px 80px; }
+    .s1-inner { padding: 24px 16px 80px; }
+    .s1-stats { grid-template-columns: 1fr; }
+    .s1-beforeafter { grid-template-columns: 1fr; }
+    .s1-metrics { grid-template-columns: 1fr; }
     .s2-body { grid-template-columns: 1fr; }
     .s3-phases { grid-template-columns: 1fr; }
-    .s4-metrics { grid-template-columns: repeat(2, 1fr); }
-    .s5-cards { grid-template-columns: 1fr; }
-    .s5-90days-list { grid-template-columns: 1fr; }
-    .s2-hyp-list { grid-template-columns: repeat(2, 1fr); }
-    .s1-inner { padding: 40px 32px 80px; }
-    .s1-stats { grid-template-columns: 1fr; }
-    .slide { padding-left: 32px !important; padding-right: 32px !important; }
     .s4-metrics { grid-template-columns: 1fr; }
     .s4-learnings { grid-template-columns: 1fr; }
+    .s5-cards { grid-template-columns: 1fr; }
+    .s5-90days-list { grid-template-columns: 1fr; }
     .s2-hyp-list { grid-template-columns: 1fr; }
+    .journey-flow { flex-wrap: wrap; }
+    .journey-details { grid-template-columns: 1fr; }
+    .journey-arrow { display: none; }
+    .s3-collab { grid-template-columns: 1fr !important; }
+    .nav-dots { bottom: 12px; }
   }
 </style>
 </head>
