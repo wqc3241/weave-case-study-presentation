@@ -1110,6 +1110,68 @@
     border-radius: 2px;
   }
 
+  /* ─── SLIDE 1B — Product Showcase ─── */
+  .s1b {
+    background: var(--bg);
+    color: var(--primary);
+  }
+
+  .showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .showcase-phase {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .showcase-phase-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  .showcase-phase--discovery .showcase-phase-label { background: rgba(99,102,241,0.1); color: #6366F1; }
+  .showcase-phase--acquisition .showcase-phase-label { background: var(--accent-glow); color: var(--accent); }
+  .showcase-phase--purchasing .showcase-phase-label { background: rgba(245,158,11,0.1); color: #D97706; }
+  .showcase-phase--purchase .showcase-phase-label { background: rgba(16,185,129,0.1); color: #10B981; }
+
+  .showcase-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .showcase-img-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    background: #1a1a1a;
+    aspect-ratio: 9 / 16;
+  }
+
+  .showcase-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+
+  .showcase-img-label {
+    font-size: 9px;
+    color: var(--text-light);
+    text-align: center;
+    margin-top: 2px;
+  }
+
   /* ─── Responsive ─── */
   @media (max-width: 600px) {
     .slide {
@@ -1204,10 +1266,73 @@
     </div>
   </div>
 
-  <!-- ═══════ SLIDE 2 — Discovery & Insights ═══════ -->
-  <div class="slide s2" data-slide="1">
+  <!-- ═══════ SLIDE 2 — Product Showcase ═══════ -->
+  <div class="slide s1b" data-slide="1">
     <div class="slide-content">
-    <div class="slide-label anim d1">02 &mdash; Discovery</div>
+    <div class="slide-label anim d1">02 &mdash; What I Delivered</div>
+    <h2 class="slide-title anim d1">The Digital Purchasing Journey I Built</h2>
+
+    <div class="showcase-grid anim d1">
+      <div class="showcase-phase showcase-phase--discovery">
+        <div class="showcase-phase-label">Discovery</div>
+        <div class="showcase-images">
+          <div>
+            <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191728_441.png" alt="Finance Offering Page"></div>
+            <div class="showcase-img-label">Finance Offering</div>
+          </div>
+          <div>
+            <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191957_670.png" alt="Payment Estimator"></div>
+            <div class="showcase-img-label">Payment Estimator</div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-phase showcase-phase--acquisition">
+        <div class="showcase-phase-label">User Acquisition</div>
+        <div class="showcase-images">
+          <div>
+            <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191748_975.png" alt="Vehicle Listing"></div>
+            <div class="showcase-img-label">Vehicle Listing</div>
+          </div>
+          <div>
+            <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191922_600.png" alt="Deposit Checkout"></div>
+            <div class="showcase-img-label">Deposit Checkout</div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-phase showcase-phase--purchasing">
+        <div class="showcase-phase-label">Purchasing Experience</div>
+        <div class="showcase-images">
+          <div>
+            <div class="showcase-img-wrap"><img src="screenshot/demo-02-step1.png" alt="Payment Details"></div>
+            <div class="showcase-img-label">Payment Details</div>
+          </div>
+          <div>
+            <div class="showcase-img-wrap"><img src="screenshot/demo-credit-app.png" alt="Credit Application"></div>
+            <div class="showcase-img-label">Credit Application</div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-phase showcase-phase--purchase">
+        <div class="showcase-phase-label">Purchase Completion</div>
+        <div class="showcase-images">
+          <div>
+            <div class="showcase-img-wrap"><img src="screenshot/demo-complete.png" alt="Submit Application"></div>
+            <div class="showcase-img-label">Submit Application</div>
+          </div>
+          <div>
+            <div class="showcase-img-wrap"><img src="screenshot/demo-dashboard.png" alt="Customer Dashboard"></div>
+            <div class="showcase-img-label">Customer Dashboard</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 3 — Discovery & Insights ═══════ -->
+  <div class="slide s2" data-slide="2">
+    <div class="slide-content">
+    <div class="slide-label anim d1">03 &mdash; Discovery</div>
     <h2 class="slide-title anim d2">Following the Data to the Biggest Drop-off</h2>
 
     <div class="s2-body">
@@ -1288,9 +1413,9 @@
   </div>
 
   <!-- ═══════ SLIDE 3 — Strategy & Execution ═══════ -->
-  <div class="slide s3" data-slide="2">
+  <div class="slide s3" data-slide="3">
     <div class="slide-content">
-    <div class="slide-label anim d1">03 &mdash; Strategy &amp; Execution</div>
+    <div class="slide-label anim d1">04 &mdash; Strategy &amp; Execution</div>
     <h2 class="slide-title anim d2">Three Phased Bets Over 9 Months</h2>
 
     <div class="s3-phases">
@@ -1356,9 +1481,9 @@
   </div>
 
   <!-- ═══════ SLIDE 4 — E2E Journey Map ═══════ -->
-  <div class="slide s3j" data-slide="3">
+  <div class="slide s3j" data-slide="4">
     <div class="slide-content">
-    <div class="slide-label anim d1">04 &mdash; End-to-End Journey</div>
+    <div class="slide-label anim d1">05 &mdash; End-to-End Journey</div>
     <h2 class="slide-title anim d1">Products Shipped Across the Customer Journey</h2>
 
     <!-- Flow bar -->
@@ -1471,9 +1596,9 @@
   </div>
 
   <!-- ═══════ SLIDE 4 — Results & Learnings ═══════ -->
-  <div class="slide s4" data-slide="4">
+  <div class="slide s4" data-slide="5">
     <div class="slide-content">
-    <div class="slide-label anim d1">05 &mdash; Results</div>
+    <div class="slide-label anim d1">06 &mdash; Results</div>
     <h2 class="slide-title anim d2">What We Delivered</h2>
 
     <div class="s4-metrics">
@@ -1521,9 +1646,9 @@
   </div>
 
   <!-- ═══════ SLIDE 5 — Bridge to Weave ═══════ -->
-  <div class="slide s5" data-slide="5">
+  <div class="slide s5" data-slide="6">
     <div class="slide-content">
-    <div class="slide-label anim d1">06 &mdash; Looking Forward</div>
+    <div class="slide-label anim d1">07 &mdash; Looking Forward</div>
     <h2 class="slide-title anim d2">How I'd Apply This at Weave</h2>
 
     <p class="s5-context anim d3">Weave faces the same transformation: <strong>high-touch service &rarr; self-serve, AI-driven growth</strong>. The TrueLark acquisition and Unified Inbox launch create a once-in-a-generation PLG opportunity &mdash; AI-powered patient engagement across ~40K locations, with &lt;15% dental penetration and 93% NRR leaving massive room to grow.</p>
@@ -1570,9 +1695,10 @@
   <button class="nav-dot" data-goto="3" aria-label="Slide 4"></button>
   <button class="nav-dot" data-goto="4" aria-label="Slide 5"></button>
   <button class="nav-dot" data-goto="5" aria-label="Slide 6"></button>
+  <button class="nav-dot" data-goto="6" aria-label="Slide 7"></button>
 </div>
 
-<div class="slide-counter" id="slideCounter">1 / 6</div>
+<div class="slide-counter" id="slideCounter">1 / 7</div>
 
 
 <script>

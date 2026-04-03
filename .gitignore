@@ -1,2 +1,11 @@
-*.png
+# Dev screenshots (root level)
+/*.png
 .playwright-mcp/
+node_modules/
+capture-demo.js
+capture-routes.js
+package.json
+package-lock.json
+
+# Keep screenshot folder for presentation images
+!screenshot/
