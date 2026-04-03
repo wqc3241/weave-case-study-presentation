@@ -1144,9 +1144,19 @@
   .showcase-phase--purchase .showcase-phase-label { background: rgba(16,185,129,0.1); color: #10B981; }
 
   .showcase-images {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .showcase-images > div {
+    flex: 0 0 calc(50% - 3px);
+    min-width: 0;
+  }
+
+  .showcase-images--three > div {
+    flex: 0 0 calc(33.33% - 4px);
   }
 
   .showcase-img-wrap {
@@ -1275,14 +1285,18 @@
     <div class="showcase-grid anim d1">
       <div class="showcase-phase showcase-phase--discovery">
         <div class="showcase-phase-label">Discovery</div>
-        <div class="showcase-images">
+        <div class="showcase-images showcase-images--three">
           <div>
             <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191728_441.png" alt="Finance Offering Page"></div>
             <div class="showcase-img-label">Finance Offering</div>
           </div>
           <div>
-            <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191957_670.png" alt="Payment Estimator"></div>
-            <div class="showcase-img-label">Payment Estimator</div>
+            <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191957_670.png" alt="Vehicle Details"></div>
+            <div class="showcase-img-label">Vehicle Details</div>
+          </div>
+          <div>
+            <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191748_975.png" alt="Vehicle Listing"></div>
+            <div class="showcase-img-label">Vehicle Listing</div>
           </div>
         </div>
       </div>
@@ -1290,38 +1304,38 @@
         <div class="showcase-phase-label">User Acquisition</div>
         <div class="showcase-images">
           <div>
-            <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191748_975.png" alt="Vehicle Listing"></div>
-            <div class="showcase-img-label">Vehicle Listing</div>
+            <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191819_896.png" alt="Payment Estimator"></div>
+            <div class="showcase-img-label">Payment Estimator</div>
           </div>
           <div>
-            <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191922_600.png" alt="Deposit Checkout"></div>
-            <div class="showcase-img-label">Deposit Checkout</div>
+            <div class="showcase-img-wrap"><img src="screenshot/ScreenShot_2026-04-02_191843_698.png" alt="Credits &amp; Savings"></div>
+            <div class="showcase-img-label">Credits &amp; Savings</div>
           </div>
         </div>
       </div>
       <div class="showcase-phase showcase-phase--purchasing">
         <div class="showcase-phase-label">Purchasing Experience</div>
-        <div class="showcase-images">
+        <div class="showcase-images showcase-images--three">
           <div>
             <div class="showcase-img-wrap"><img src="screenshot/demo-02-step1.png" alt="Payment Details"></div>
             <div class="showcase-img-label">Payment Details</div>
           </div>
           <div>
-            <div class="showcase-img-wrap"><img src="screenshot/demo-credit-app.png" alt="Credit Application"></div>
-            <div class="showcase-img-label">Credit Application</div>
+            <div class="showcase-img-wrap"><img src="screenshot/demo-03-step2.png" alt="ID Verification"></div>
+            <div class="showcase-img-label">ID Verification</div>
+          </div>
+          <div>
+            <div class="showcase-img-wrap"><img src="screenshot/demo-accessories.png" alt="Accessories"></div>
+            <div class="showcase-img-label">Accessories</div>
           </div>
         </div>
       </div>
-      <div class="showcase-phase showcase-phase--purchase">
+      <div class="showcase-phase showcase-phase--purchase showcase-phase--single">
         <div class="showcase-phase-label">Purchase Completion</div>
         <div class="showcase-images">
           <div>
-            <div class="showcase-img-wrap"><img src="screenshot/demo-complete.png" alt="Submit Application"></div>
-            <div class="showcase-img-label">Submit Application</div>
-          </div>
-          <div>
             <div class="showcase-img-wrap"><img src="screenshot/demo-dashboard.png" alt="Customer Dashboard"></div>
-            <div class="showcase-img-label">Customer Dashboard</div>
+            <div class="showcase-img-label">Dashboard</div>
           </div>
         </div>
       </div>
